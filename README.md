@@ -44,8 +44,8 @@ Mở `http://localhost:3000`. Nếu cổng 3000 đang được dùng, xem URL th
 | --- | --- |
 | `/` hoặc `/?to=2` | Món quà đặc biệt dành cho em — xưng mình / em |
 | `/?to=1` | Mẹ — xưng con / mẹ |
-| `/?to=3` | Em — xưng anh / em |
-| `/?to=4` | Chị — xưng em / chị |
+| `/?to=3` | Em gái — xưng anh / em, lời chúc gần gũi giữa anh em |
+| `/?to=4` | Chị là bạn bè hoặc đồng nghiệp — xưng em / chị, lời chúc thân thiện |
 | `/20-10?to=N` với `N` là 1, 2, 3 hoặc 4 | Các đường dẫn cũ vẫn mở đúng thiệp tương ứng |
 | `/20-10`, query không hợp lệ hoặc `to` bị lặp | Trang chọn một trong bốn tấm thiệp |
 | `/letters` | Hộp thư riêng, yêu cầu mật khẩu |
@@ -56,11 +56,13 @@ Mở trang chủ không có query sẽ vào thẳng thiệp dành cho em (`id=2`
 
 **Nội dung:** sửa `src/config/recipients.ts`. Đây là nguồn duy nhất của nội dung riêng cho bốn người nhận: tiêu đề, cách xưng hô, xin lỗi, lời mời nhận hoa, lời chúc, lời ký và lời mời nhắn lại. `sender` chứa tên **Thành An** và [Facebook người gửi](https://www.facebook.com/thanhanthinker); chữ ký hiển thị tên với liên kết này. TypeScript kiểm tra đầy đủ các trường. Ký tự xuống dòng `\n` tạo ngắt dòng có chủ đích, `\n\n` ngăn cách đoạn.
 
+Lời chúc trong mỗi thiệp gồm hai đoạn ngắn và một lời kết, tổng khoảng 70 từ, với giọng nhẹ nhàng, chân thành. Tiêu đề giới hạn hai dòng ngắn; nút mở đầu là **Chấp nhận** cho cả bốn người nhận. `GreetingCard` dành một màn hình cho cả bó hoa và thư, tự đo kích thước nội dung bằng `ResizeObserver` và co vừa khi cần, kể cả sau khi font tải xong hoặc xoay thiết bị. CSS có bố cục gọn cho màn hình thấp. Phần nhắn lại nằm riêng bên dưới, không cần đưa vào ảnh chụp thiệp.
+
 **Minh họa:** các hình dùng trên trang nằm trong `public/images/`. Nhân vật được lấy từ ảnh minh họa người gửi đã cung cấp, cùng hình phong bì hoa. Nếu thay ảnh, giữ đúng tỉ lệ canvas và điều chỉnh vị trí lớp mí mắt trong `src/components/20-10/BoyIllustration.tsx`. Lớp mí mắt cần trùng với đôi mắt, kính không được biến dạng. Cũng kiểm tra lại lớp bó hoa và animation ở màn trao hoa. Không tự thay bằng ảnh chân dung thật nếu chưa có sự đồng ý của người trong ảnh.
 
-Nhân vật có ba lớp ảnh: `boy-with-flowers.png` giữ gương mặt và hình gốc, `boy-clean-plate.png` làm lớp nền sau vùng chuyển động, `hands-and-bouquet.png` chứa tay và bó hoa. SVG mask/clip tách các nhánh lá và bông hoa để chuyển động nhẹ, trong khi tay nâng và đưa bó hoa về phía trước. Mí mắt là lớp SVG riêng, có nhịp chớp thưa và biến thiên nhẹ; không làm méo kính hoặc phóng to gương mặt. Khi lớp animation chưa tải được, hình minh họa gốc vẫn hiện; nếu hình gốc thiếu, component có SVG dự phòng.
+Nhân vật có ba lớp ảnh: `boy-with-flowers.png` giữ gương mặt và hình gốc, `boy-clean-plate.png` làm lớp nền sau vùng chuyển động, `hands-and-bouquet.png` chứa tay và bó hoa. SVG mask/clip tách các nhánh lá và bông hoa để chuyển động nhẹ, trong khi tay nâng và đưa bó hoa về phía trước. Tay nâng ban đầu 44px nguồn, nghỉ ở 30px rồi nâng nhẹ thêm 14px theo chu kỳ 5,6 giây. Mí mắt là lớp SVG riêng, chớp trong 200ms sau 1,2 giây rồi lặp ngẫu nhiên mỗi 3,6–6,5 giây; không làm méo kính hoặc phóng to gương mặt. Khi lớp animation chưa tải được, hình minh họa gốc vẫn hiện; nếu hình gốc thiếu, component có SVG dự phòng.
 
-**Chuyển động và cuộn:** ba cảnh dùng state `apology | offering | greeting`. Ngoài cánh hoa và vài nét gió ở nền, phần đọc thiệp có nội dung hiện dần khi đi vào viewport, bó hoa dịch chuyển nhẹ theo cuộn, thanh báo tiến độ đọc và liên kết xuống phần nhắn lại. Tùy chọn `prefers-reduced-motion` giảm hoặc tắt các chuyển động. Không khóa cuộn trang; người nhận có thể đọc hết thiệp và chọn nhắn lại hoặc kết thúc.
+**Chuyển động và cuộn:** ba cảnh dùng state `apology | offering | greeting`. Ngoài cánh hoa và vài nét gió ở nền, cả bó hoa và thiệp hiện nhẹ cùng nhau để nội dung đầy đủ sẵn sàng chụp màn hình. Phần nhắn lại vẫn hiện dần khi cuộn tới, có thanh báo tiến độ đọc và liên kết xuống phần nhắn lại. Tùy chọn `prefers-reduced-motion` giảm hoặc tắt các chuyển động. Không khóa cuộn trang; người nhận có thể chọn nhắn lại hoặc kết thúc.
 
 **Tên người gửi:** `SenderLink` lấy tên và Facebook từ `sender` trong cấu hình chung, xuất hiện ở lời mở đầu, chữ ký trong thiệp và phần kết. Liên kết mở tab mới với `noopener noreferrer`. Cách xưng hô của từng trải nghiệm vẫn giữ riêng: con/mẹ, mình/em, anh/em và em/chị.
 
@@ -71,7 +73,9 @@ Nhân vật có ba lớp ảnh: `boy-with-flowers.png` giữ gương mặt và h
 
 Không lấy bản thu từ dịch vụ bên ngoài. Muốn thay nhạc, đặt MP3 có quyền sử dụng vào các đường dẫn tương ứng. Nếu thiếu hoặc không phát được MP3, trải nghiệm vẫn tiếp tục bình thường.
 
-Nhạc chỉ bắt đầu sau tương tác, dùng một audio instance xuyên suốt; bấm nút **Nhận hoa nhé** đổi nguồn của cùng phần tử audio nên không phát chồng. Nhãn nút có thể đổi theo người nhận. Lựa chọn tắt nhạc được giữ khi đổi bài, có điều khiển bật/tắt và giảm âm lượng khi đọc thiệp. Trình duyệt có thể chặn phát nhạc; người nhận có thể bật lại bằng nút âm thanh.
+Nhạc **mặc định bật** và ứng dụng thử phát khi mở trang. Nếu trình duyệt chặn autoplay, ứng dụng sẽ thử lại sau tương tác đầu tiên; trạng thái đang phát chỉ hiện khi audio thực sự phát. Người nhận có thể tắt ngay bằng nút âm thanh.
+
+Chỉ có một audio instance xuyên suốt; bấm nút **Nhận hoa nhé** đổi nguồn của cùng phần tử audio nên không phát chồng. Nhãn nút có thể đổi theo người nhận. Lựa chọn tắt nhạc được giữ khi chuyển cảnh hoặc đổi bài, âm lượng hạ nhẹ khi đọc thiệp. Không bỏ qua chính sách autoplay của trình duyệt.
 
 Hai họ font Cormorant Garamond và Be Vietnam Pro được phục vụ từ package tại máy, có bộ ký tự tiếng Việt và fallback. Không phụ thuộc việc tải Google Fonts khi build hoặc mở trang.
 
@@ -196,6 +200,8 @@ Các kiểm tra giao diện cần xác minh thêm trên browser: trang chủ m�
 - Console trang hoàn thiện không ghi nhận warning/error. Các ảnh kiểm chứng nằm trong `docs/screenshots/`.
 - `prefers-reduced-motion` đã được xử lý trong Motion và CSS; chưa mô phỏng trực tiếp tùy chọn hệ điều hành trong phiên kiểm thử trình duyệt này.
 - **Chưa kiểm chứng** store Vercel Blob thật hoặc tồn tại qua redeploy: cần kết nối store riêng tư và chạy checklist phía trên. Các kiểm thử Blob hiện dùng adapter giả lập.
+- Bản thiệp vừa màn hình: đã đo và xem ảnh ở laptop 1366×768, tablet 768×1024, điện thoại 390×844, màn nhỏ 320×568 và ngang 844×390; cả hoa, thư và chữ ký đều nằm trong viewport. Đã xác nhận nút **Chấp nhận**, lời chúc mới, tay nâng rõ hơn và không tràn ngang ở 320px.
+- Nhạc mặc định bật: trình duyệt kiểm thử chặn phát lúc vừa tải; lần nhấn **Chấp nhận** phát bài nền thành công và nhận hoa chuyển sang bài thứ hai. Trạng thái bật/tắt tách biệt với trạng thái thực sự phát; tắt ngay từ đầu vẫn giữ im lặng qua các cảnh và lần đổi bài.
 
 `npm audit --omit=dev`: 0 lỗ hổng dependency runtime tại thời điểm kiểm tra. Audit đầy đủ báo 5 mục mức high từ cùng một advisory của `braces` trong chuỗi công cụ ESLint; chưa có bản vá được công bố. Không tự hạ ESLint config xuống Next 14 vì dự án đang dùng Next 16. Theo dõi [GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm) và cập nhật công cụ khi có bản tương thích.
 
@@ -219,5 +225,5 @@ scripts/              Nguồn tạo âm thanh
 tests/                Kiểm thử backend
 data/messages.json    Dữ liệu local, được bỏ qua trong Git
 ```
-#   2 0 - 1 0  
- 
+# 20-10
+
