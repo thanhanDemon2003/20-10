@@ -1,0 +1,205 @@
+.scene {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.viewport {
+  position: relative;
+  height: calc(100svh - var(--greeting-header-height));
+  width: 100%;
+}
+
+.composition {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(100% - 8px, 620px);
+  transform: translate(-50%, -50%) scale(var(--letter-scale, 1));
+  transform-origin: center;
+}
+
+.reveal {
+  position: relative;
+  padding-top: 102px;
+}
+
+.flower {
+  position: absolute;
+  z-index: 2;
+  top: 6px;
+  left: 50%;
+  width: 172px;
+  transform: translateX(-50%) rotate(5deg);
+  pointer-events: none;
+}
+
+.flower img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.card {
+  position: relative;
+  padding: 105px 58px 30px;
+  text-align: center;
+  background: #fffdf6;
+  box-shadow: 0 12px 35px #655b3910, 0 2px 6px #655b3905;
+}
+
+.border {
+  position: absolute;
+  inset: 11px;
+  border: 1px solid #e8e3d4;
+  pointer-events: none;
+}
+
+.eyebrow {
+  margin: 0 0 15px;
+  color: #79806b;
+  font-size: 8px;
+  line-height: 1.6;
+  letter-spacing: 1.5px;
+}
+
+.card h1 {
+  margin: 0;
+  font-size: 45px;
+  line-height: 1.08;
+  letter-spacing: -1px;
+  text-wrap: balance;
+}
+
+.card h1 em {
+  color: #9c7063;
+  font-weight: 400;
+}
+
+.mark {
+  width: 22px;
+  height: 28px;
+  margin: 14px auto;
+  color: #9eaa8d;
+}
+
+.body {
+  color: #606b5d;
+  font-size: 14px;
+  line-height: 1.85;
+}
+
+.body p {
+  margin: 0 0 12px;
+}
+
+.body p:last-child {
+  margin-bottom: 0;
+}
+
+.closing {
+  margin: 17px 0 14px;
+  color: #9c7063;
+  font-family: var(--font-serif);
+  font-size: 26px;
+  font-style: italic;
+  line-height: 1.25;
+}
+
+.signature {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  color: #80866f;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.signature :global(.sender-signature) {
+  min-height: 44px;
+  padding: 0 3px;
+  font-size: 34px;
+  line-height: 1.2;
+}
+
+.date {
+  margin-top: 6px;
+  font-size: 7px;
+  letter-spacing: 1px;
+}
+
+.sprig {
+  position: absolute;
+  width: 65px;
+  bottom: 15px;
+  right: 16px;
+  opacity: .28;
+  transform: rotate(12deg);
+  pointer-events: none;
+}
+
+@media (max-width: 700px) {
+  .reveal { padding-top: 83px; }
+  .flower { width: 142px; }
+  .card { padding: 90px 25px 24px; }
+  .eyebrow { font-size: 6.5px; letter-spacing: 1px; margin-bottom: 12px; }
+  .card h1 { font-size: 36px; letter-spacing: -.7px; }
+  .mark { width: 18px; height: 23px; margin: 11px auto; }
+  .body { font-size: 13px; line-height: 1.8; }
+  .body p { margin-bottom: 12px; }
+  .closing { font-size: 24px; margin: 14px 0 12px; }
+  .signature { font-size: 9px; }
+  .signature :global(.sender-signature) { font-size: 31px; }
+  .date { font-size: 6.5px; letter-spacing: .6px; }
+  .sprig { width: 48px; right: 10px; bottom: 10px; }
+}
+
+@media (max-height: 740px) {
+  .reveal { padding-top: 63px; }
+  .flower { width: 115px; top: 4px; }
+  .card { padding-top: 75px; padding-bottom: 22px; }
+  .eyebrow { margin-bottom: 9px; }
+  .card h1 { font-size: 37px; }
+  .mark { width: 16px; height: 20px; margin: 8px auto; }
+  .body { line-height: 1.7; }
+  .body p { margin-bottom: 10px; }
+  .closing { margin: 11px 0 9px; font-size: 24px; }
+  .date { margin-top: 3px; }
+}
+
+@media (max-width: 359px) {
+  .card { padding-inline: 22px; }
+  .card h1 { font-size: 32px; }
+  .body { font-size: 12.5px; }
+  .closing { font-size: 23px; }
+}
+
+@media (max-width: 700px) and (max-height: 650px) {
+  .reveal { padding-top: 55px; }
+  .flower { width: 98px; }
+  .card { padding: 66px 19px 18px; }
+  .card h1 { font-size: 30px; line-height: 1.06; }
+  .mark { display: none; }
+  .body { margin-top: 12px; font-size: 12px; line-height: 1.6; }
+  .body p { margin-bottom: 9px; }
+  .closing { margin: 10px 0 8px; font-size: 22px; }
+  .signature { font-size: 8px; gap: 1px; }
+  .signature :global(.sender-signature) { font-size: 29px; }
+  .date { margin-top: 2px; font-size: 6px; }
+}
+
+@media (min-width: 701px) and (max-height: 500px) {
+  .composition { width: min(100% - 8px, 760px); }
+  .reveal { padding-top: 37px; }
+  .flower { width: 76px; top: 2px; }
+  .card { padding: 53px 34px 16px; }
+  .eyebrow { margin-bottom: 6px; font-size: 6.5px; }
+  .card h1 { font-size: 29px; }
+  .mark { display: none; }
+  .body { margin-top: 12px; font-size: 12px; line-height: 1.6; }
+  .body p { margin-bottom: 8px; }
+  .closing { margin: 8px 0; font-size: 22px; }
+  .signature { font-size: 8px; gap: 0; }
+  .signature :global(.sender-signature) { font-size: 28px; }
+  .date { margin-top: 0; font-size: 6px; }
+}

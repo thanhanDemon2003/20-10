@@ -1,0 +1,11 @@
+node_modules/
+.next/
+out/
+.env*
+!.env.example
+*.tsbuildinfo
+.tmp/
+coverage/
+data/*.tmp
+data/*.lock
+data/messages.json
