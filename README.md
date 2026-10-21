@@ -134,3 +134,9 @@ src/
 public/                 Hình minh họa và nhạc
 scripts/                Tạo nhạc piano
 ```
+
+## Giấy phép
+
+Mã nguồn phát hành theo [MIT License](LICENSE).
+
+Hình minh họa trong `public/images`, nội dung lời chúc trong `src/config/recipients.ts` và tên người gửi là của tác giả, **không** nằm trong giấy phép MIT. Khi dùng lại dự án, hãy thay bằng hình ảnh và nội dung của bạn.
