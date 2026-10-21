@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getRecipient } from "@/config/recipients";
 import { GiftExperience } from "@/components/20-10/GiftExperience";
 import { RecipientPicker } from "@/components/20-10/RecipientPicker";
+import { redirectIfGiftExpired } from "@/lib/gift-window";
 
 type Props = { searchParams: Promise<{ to?: string | string[] }> };
 
@@ -12,6 +13,7 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
 }
 
 export default async function GiftPage({ searchParams }: Props) {
+  redirectIfGiftExpired();
   const { to } = await searchParams;
   const recipient = getRecipient(typeof to === "string" ? to : undefined);
   return recipient ? <GiftExperience key={recipient.id} recipient={recipient} /> : <RecipientPicker />;
