@@ -30,7 +30,6 @@ export function errorResponse(error: unknown, fallback: string) {
       error.status === 429 ? { "Retry-After": "60" } : undefined,
     );
   }
-  // Deliberately do not log request bodies, credentials or SDK error details.
   return jsonResponse({ error: fallback }, 503);
 }
 
@@ -66,7 +65,6 @@ export function requireSameOrigin(request: Request) {
   } catch {
     throw new HttpError(403, "Nguồn gửi yêu cầu không hợp lệ.");
   }
-  // Never trust a client-supplied X-Forwarded-Host as an allowed origin.
   if (suppliedOrigin !== expectedOrigin) {
     throw new HttpError(403, "Yêu cầu phải được gửi từ chính website này.");
   }

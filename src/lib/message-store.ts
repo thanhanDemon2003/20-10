@@ -118,7 +118,6 @@ export interface BlobSnapshot {
   etag: string;
 }
 
-/** The adapter boundary lets tests exercise real CAS logic without live secrets. */
 export interface MessageBlobAdapter {
   read(): Promise<BlobSnapshot | null>;
   write(document: MessageDocument, etag: string | null): Promise<void>;
@@ -143,7 +142,6 @@ const vercelAdapter: MessageBlobAdapter = {
       addRandomSuffix: false,
       contentType: "application/json",
       cacheControlMaxAge: 60,
-      // Creation is exclusive. A concurrent first writer must not overwrite.
       allowOverwrite: etag !== null,
       ...(etag !== null ? { ifMatch: etag } : {}),
     });

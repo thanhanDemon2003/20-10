@@ -67,7 +67,6 @@ for (let bar = 0; bar < 12; bar++) {
 await render(opening, "20-10-piano.mp3");
 
 // "Hoa và lời thương" — a separate, lilting 3/4 melody in G major.
-// The light waltz pulse makes receiving the bouquet feel like a new chapter.
 const flowerBeat = .79;
 const flowers = createComposition(60 * flowerBeat + 6);
 const flowerChords = [

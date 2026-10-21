@@ -23,8 +23,6 @@ export function GreetingCard({ recipient }: { recipient: Recipient }) {
     let pendingFrame = 0;
     const fit = () => {
       if (!active) return;
-      // Measure untransformed content, including the flower's reserved space.
-      // Leave a small border around every edge for a complete screenshot.
       const scale = Math.min(1, (frame.clientWidth - 8) / letter.offsetWidth,
         (frame.clientHeight - 24) / letter.offsetHeight);
       letter.style.setProperty("--letter-scale", String(Math.max(.1, scale)));

@@ -9,3 +9,6 @@ coverage/
 data/*.tmp
 data/*.lock
 data/messages.json
+.idea/
+.vscode/
+.DS_Store

@@ -44,7 +44,6 @@ function BlinkingPortrait() {
       sizes="(max-width: 860px) 320px, 470px"
       priority
     />
-    {/* Eyelids sit on the same 1024x1536 grid as the artwork, so they line up at any size. */}
     <svg className={styles.art} viewBox="0 0 1024 1536" aria-hidden="true">
       <g className={`${styles.eyelids} ${blinking && !reduced ? styles.blinking : ""}`}>
         <path d="M462 140Q475 133 489 141L488 153Q474 159 461 151Z" fill="#e4b89b" />
@@ -58,7 +57,6 @@ function BlinkingPortrait() {
 export function ThanksPage() {
   const music = useRef<MusicHandle>(null);
 
-  // The wishes scene plays "Hoa và lời thương"; use the same song here.
   useEffect(() => { music.current?.receiveFlowers(); }, []);
 
   return <main className={`gift-shell ${styles.shell}`}>

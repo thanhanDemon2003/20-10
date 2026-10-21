@@ -54,7 +54,6 @@ export function BoyIllustration({ giving }: { giving: boolean }) {
       image.onerror = reject;
       image.src = src;
     }))).then(() => { if (!cancelled) setLayersReady(true); }).catch(() => {
-      // Keep the original visible if an animation layer cannot be loaded.
     });
     return () => { cancelled = true; };
   }, []);

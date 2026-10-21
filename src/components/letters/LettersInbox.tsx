@@ -71,7 +71,6 @@ export default function LettersInbox() {
     setError("");
     try {
       const response = await fetch("/api/admin/logout", { method: "POST", credentials: "same-origin" });
-      // An expired session is already signed out on the server.
       if (!response.ok && response.status !== 401) throw new Error("Chưa đăng xuất được. Bạn thử lại nhé.");
       setLetters([]);
       setSession("anonymous");

@@ -18,7 +18,7 @@ import { WindAtmosphere } from "./WindAtmosphere";
 type Stage = "apology" | "offering" | "greeting";
 const stages: { id: Stage; label: string }[] = [{ id: "apology", label: "Lời mở đầu" }, { id: "offering", label: "Một bó hoa" }, { id: "greeting", label: "Lời thương" }];
 
-export function GiftExperience({ recipient }: { recipient: Recipient }) {
+export function GiftExperience({ recipient, keepOpen = false }: { recipient: Recipient; keepOpen?: boolean }) {
   const [stage, setStage] = useState<Stage>("apology");
   const [giving, setGiving] = useState(false);
   const music = useRef<MusicHandle>(null);
@@ -44,7 +44,7 @@ export function GiftExperience({ recipient }: { recipient: Recipient }) {
     <ReadingProgress active={stage === "greeting"} />
     <FloatingPetals burst={giving} />
     <WindAtmosphere warm={stage === "greeting"} />
-    <header className="gift-header"><Link href="/" className="wordmark" aria-label="Một chút dịu dàng — trang chủ"><FlowerMark /><span>một chút dịu dàng</span></Link><MusicControl ref={music} quiet={stage === "greeting"} /></header>
+    <header className="gift-header"><Link href={keepOpen ? "/?open=true" : "/"} className="wordmark" aria-label="Một chút dịu dàng — trang chủ"><FlowerMark /><span>một chút dịu dàng</span></Link><MusicControl ref={music} quiet={stage === "greeting"} /></header>
     <div className="scene-container"><AnimatePresence mode="wait">
       <motion.div className="scene-transition" key={stage} initial={reduced ? false : { opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, y: reduced ? 0 : -12 }} transition={{ duration: reduced ? 0 : .45 }}>
         {stage === "apology" && <ApologyScene recipient={recipient} onContinue={() => { music.current?.start(); setStage("offering"); }} />}

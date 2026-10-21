@@ -29,8 +29,6 @@ export const MusicControl = forwardRef<MusicHandle, { quiet: boolean }>(function
         !element.paused || explicitlyMuted.current) return;
     const attempt = ++generation.current;
     pendingAttempt.current = attempt;
-    // Try on mount, and retry directly inside a trusted interaction if the
-    // browser blocked autoplay. Never fake playback or bypass browser policy.
     void element.play().then(() => {
       if (generation.current === attempt && !element.paused && !explicitlyMuted.current) setPlaying(true);
     }).catch(() => {
@@ -73,7 +71,6 @@ export const MusicControl = forwardRef<MusicHandle, { quiet: boolean }>(function
     currentTrack.current = "flowers";
     setTrack("flowers");
     // Reuse the same audio element: the two melodies can never overlap.
-    // The composition has its own soft opening, so play need not be delayed.
     element.src = TRACKS.flowers.src;
     element.volume = 0.18;
     element.load();

@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { getRecipient } from "@/config/recipients";
 import { GiftExperience } from "@/components/20-10/GiftExperience";
 import { RecipientPicker } from "@/components/20-10/RecipientPicker";
-import { redirectIfGiftExpired } from "@/lib/gift-window";
+import { isGiftOpenOverride, redirectIfGiftExpired } from "@/lib/gift-window";
 
-type Props = { searchParams: Promise<{ to?: string | string[] }> };
+type Props = { searchParams: Promise<{ to?: string | string[]; open?: string | string[] }> };
 
 function recipientFromQuery(to: string | string[] | undefined) {
   return getRecipient(to === undefined ? "2" : typeof to === "string" ? to : undefined);
@@ -20,7 +20,9 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
 }
 
 export default async function Home({ searchParams }: Props) {
-  redirectIfGiftExpired();
-  const recipient = recipientFromQuery((await searchParams).to);
-  return recipient ? <GiftExperience key={recipient.id} recipient={recipient} /> : <RecipientPicker />;
+  const { to, open } = await searchParams;
+  redirectIfGiftExpired(open);
+  const keepOpen = isGiftOpenOverride(open);
+  const recipient = recipientFromQuery(to);
+  return recipient ? <GiftExperience key={recipient.id} recipient={recipient} keepOpen={keepOpen} /> : <RecipientPicker keepOpen={keepOpen} />;
 }
